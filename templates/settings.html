@@ -1,0 +1,38 @@
+<html>
+<head>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="stylesheet" href='/static/style.css' />
+</head>
+<body>
+{% include "header.html" %}
+<h1>Settings</h1>
+
+<div>
+<h2>City Weather</h2>
+<form method="POST">
+  <select id="cities" name="cities" size="20">
+  	{%for city in cities%}
+    	<option value='{{city}}'>{{city}}</option>
+    {%endfor%}
+  </select><br><br>
+  <input type="submit" onsubmit="return false">
+</form>
+</div>
+
+<form>
+<h2>Time Format</h2>
+  <input type="radio" id="time_12" name="time_format" value="12" >
+  <label for="time_12">12 Hour</label><br>
+  <input type="radio" id="time_24" name="time_format" value="24" checked>
+  <label for="time_24">24 Hour</label><br>
+</form>
+
+<h2>Display Quote</h2>
+<form>
+  <label for="quote">Quote:</label><br>
+  <input type="text" id="quote" value="Note displayed on mirror"><br><br>
+  <input type="submit" onsubmit="return false">
+</form>
+
+</body>
+</html>

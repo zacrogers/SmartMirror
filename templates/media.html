@@ -1,0 +1,50 @@
+<html>
+<head>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href='/static/style.css' />
+</head>
+<body>
+
+{% include "header.html" %}
+<!-- <h1>Audio Player</h1>
+<h2>Playing : {{current_track}}</h2>
+
+<a href="/play" class="button" >Play</a>
+<a href="/stop" class="button" >Stop</a> -->
+<a href="/ps_1">1</a>
+<a href="/ps_2">2</a>
+<a href="/ps_3">3</a>
+<a href="/ps_4">4</a>
+
+<form method="POST">
+  <select id="tracks" name="tracks" size="20">
+  	{%for track in tracks%}
+      <option value='{{track}}'>{{track}}</option>
+    {%endfor%}
+  </select><br><br>
+  <input type="submit" onsubmit="return false">
+</form>
+
+
+</body>
+<footer>
+<script>
+	window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("navbar");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  // } else {
+  //   navbar.classList.remove("sticky");
+  }
+}
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</footer>	
+</html>
