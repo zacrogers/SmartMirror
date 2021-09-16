@@ -7,3 +7,5 @@ Features:
   - Temperature
   - News headlines 
   - Web server
+
+Work in progress
