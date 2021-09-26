@@ -6,7 +6,7 @@ import os
 from PIL import ImageTk,Image
 import json
 
-# import weather
+import weather
 import news
 
 
@@ -58,7 +58,7 @@ class Mirror(tk.Frame):
 
         # Temperature info
         # self.get_temperature()
-        temp = 10 #weather.get_temp(self.home_city, self.country)
+        temp = weather.get_temp(self.home_city, self.country)
         self.home_temp_label = tk.Label(self.temp_frame, 
                                         text=f"{temp} {self.CELSIUS}", 
                                         bg=self.BG_COLOR, 
@@ -71,7 +71,8 @@ class Mirror(tk.Frame):
         self.top_frame.pack(expand=True, side=tk.TOP, fill=tk.BOTH, pady=60)
 
         # Filler to space out screen center
-        self.filler = tk.Label(self, height=35, text='fill', bg=self.BG_COLOR)
+        # self.filler = tk.Label(self, height=35, text='fill', bg=self.BG_COLOR)
+        self.filler = tk.Label(self, height=15, text='fill', bg=self.BG_COLOR)
         self.filler.pack(expand=True, fill=tk.BOTH)
 
         # News headlines
@@ -104,8 +105,8 @@ class Mirror(tk.Frame):
     def get_temperature(self):
         row = 0
         for city in self.CITIES:
-            temp = 100 
-            # temp = weather.get_temp(city, self.country)
+            # temp = 100 
+            temp = weather.get_temp(city, self.country)
             temp_label = tk.Label(self.temp_frame, 
                                   text=f"{city} {temp}{self.CELSIUS}", 
                                   bg=self.BG_COLOR, 
@@ -121,6 +122,8 @@ class Mirror(tk.Frame):
 
     def get_headlines(self):
         hl = news.get_nz_headlines()
+
+        self.NUM_HEADLINES = len(hl)-1
 
         for i in range(self.NUM_HEADLINES):
 
@@ -157,8 +160,8 @@ class Mirror(tk.Frame):
         self.parent.after(1000, self.update_date)
 
     def update_home_temp(self):
-        temp = 10 
-        # temp = weather.get_temp(self.home_city, self.country)
+        # temp = 10 
+        temp = weather.get_temp(self.home_city, self.country)
         self.home_temp_label.configure(text=f"{temp} {self.CELSIUS}")
         self.parent.after(60000, self.update_home_temp)
 
@@ -191,6 +194,8 @@ class Mirror(tk.Frame):
     def update_headlines(self):
         hl = news.get_nz_headlines()
 
+        self.NUM_HEADLINES = len(hl)-1
+
         for i in range(self.NUM_HEADLINES):
             # Remove website name
             line = hl[i].split('-')
@@ -217,7 +222,7 @@ class Mirror(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Smart mirror")
-    root.attributes('-fullscreen', True, '-topmost', True)
+    # root.attributes('-fullscreen', True, '-topmost', True)
     root.lift()
     m = Mirror(root, bg="black")
     m.pack(expand = True, fill=tk.BOTH)
