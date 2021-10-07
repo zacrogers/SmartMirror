@@ -217,7 +217,7 @@ class Mirror(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Smart mirror")
-    root.attributes('-fullscreen', True, '-topmost', True)
+    # root.attributes('-fullscreen', True, '-topmost', True)
     root.lift()
     m = Mirror(root, bg="black")
     m.pack(expand = True, fill=tk.BOTH)
