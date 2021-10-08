@@ -1,5 +1,6 @@
+from ipaddress import IPv4Address
 from flask import Flask
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api, Resource, reqparse, abort
 from flask_sqlalchemy import SQLAlchemy
 from typing import List
 
@@ -7,18 +8,28 @@ from node_types import NodeType, Node, SensorNode, PowerStripNode
 
 app = Flask(__name__)
 api = Api(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db  = SQLAlchemy(app)
 
-
-class DbNode(db.Model):
+class NodeModel(db.Model):
     id        = db.Column(db.Integer, primary_key=True)
-    label     = db.Column(db.String(100))
-    ip_addr   = db.Column(db.String(100), unique=True)
-    node_type = db.Column(db.String(100))
+    label     = db.Column(db.String(10), unique=True, nullable=False)
+    ip_addr   = db.Column(db.String(15), unique=True, nullable=False)
+    node_type = db.Column(db.String(10), nullable=False)
 
 
-req_parser = reqparse.RequestParser()
-nodes = List[Node]
+# db.create_all()
+
+n = NodeModel(id=1, label="BedroomSensore", ip_addr="192.168.2.5", node_type="sensor")
+# db.session.add(n)
+# db.session.commit()
+
+node_add_args = reqparse.RequestParser()
+node_add_args.add_argument("label", type=str, help="Label for node is required.", required=True)
+node_add_args.add_argument("ip_addr", type=str, help="IP address for node is required.", required=True)
+node_add_args.add_argument("type", type=str, help="Type of node is required.", required=True)
+
+nodes = {}
 
 
 class HelloWorld(Resource):
@@ -26,9 +37,35 @@ class HelloWorld(Resource):
         return {"data":"The server is alive!"}
 
 
-class Sensor(Resource):
+class ManageNode(Resource):
+    def put(self):
+        args = node_add_args.parse_args()
+        return {"data":"The server is alive!"}
+
+
+class UpdateNode(Resource):
     def get(self):
-        return {"data":"Hello world"}
+        return {"data":"The server is alive!"}
+
+
+class DeleteNode(Resource):
+    def get(self):
+        return {"data":"The server is alive!"}    
+
+
+class Sensor(Resource):
+    def get(self, label):
+        result = NodeModel.query.filter_by(label=label).first()
+
+        node = SensorNode(result.label, IPv4Address(result.ip_addr))
+        return {"name":result.label,"ip_addr":str(result.ip_addr)}
+        
+    # def get(self, label):
+    #     if label not in nodes:
+    #         abort(404, message=f"No sensor node called {label} exists.")
+
+    #     node = nodes[label]
+    #     return node.get_data()
 
 
 class Power(Resource):
@@ -40,13 +77,16 @@ class Power(Resource):
     def post(self):
         return NotImplementedError
 
+
 # class DoorLock(Resource):
 #     def get(self):
 #         return {"data":"Hello world"}
 
+
 api.add_resource(HelloWorld, "/")
-api.add_resource(Sensor, "/sensor/<ip_addr>")
-api.add_resource(Power, "/power/<ip_addr>")
+api.add_resource(ManageNode, "/node/<string:label>/<string:ip_addr>/<string:type>")
+api.add_resource(Sensor, "/sensor/<string:label>")
+api.add_resource(Power, "/power/<string:label>")
 # api.add_resource(DoorLock, "/doorlock/<ip_addr>")
 
 

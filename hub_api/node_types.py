@@ -1,6 +1,10 @@
 from enum import Enum, auto
 from abc import ABC, abstractmethod
+from typing import List
 from ipaddress import IPv4Address
+import requests
+import json
+from bs4 import BeautifulSoup
 
 class NodeType(Enum):
     BASE = auto()
@@ -18,8 +22,7 @@ class Node(ABC):
 
     @abstractmethod
     def reset(self) -> None:
-        ''' Hard reset device '''
-        return NotImplementedError
+        ''' Hard reset node '''
 
 
 class SensorNode(Node):
@@ -27,10 +30,25 @@ class SensorNode(Node):
         super().__init__(label, ip_addr, NodeType.SENSOR)
 
     def get_data(self) -> dict:
-        ''' Return sensor values as json '''
-        return NotImplementedError
+        ''' Fetches light, temperature and humidity data from web server as json'''
+        try:
+            data = requests.get(f"http://{str(self.ip_addr)}")
 
-    def reset(self)-> None:
+            if(data.status_code == 200):
+                soup = BeautifulSoup(data.text, 'html.parser')
+                table = soup.find("table", class_="sensor_values")
+                headers = [header.text for header in table.findAll("th")]
+                values = [{headers[i]: cell.text for i, cell in enumerate(row.find_all('td'))}
+                            for row in table.find_all('tr')]
+
+                vals = list(values[1].values()) #  First row in list is empty so only return second
+                return {"light":vals[0], "temperature":vals[1], "humidity":vals[2]}
+
+        except requests.exceptions.RequestException as e:
+            print(e)
+            return {"light":0, "temperature":0, "humidity":0}
+
+    def reset(self) -> None:
         return NotImplementedError
 
 
@@ -53,10 +71,10 @@ class PowerStripNode(Node):
         for i in range(0, self.num_chans-1):
             self.channel_off(i)
 
-    def get_states(self) -> dict:
+    def get_states(self) -> List[bool]:
         return NotImplementedError
 
-    def reset(self)-> None:
+    def reset(self) -> None:
         return NotImplementedError
 
 
@@ -73,9 +91,9 @@ class DoorLockNode(Node):
     def get_state(self) -> bool:
         return NotImplementedError
 
-    def reset(self)-> None:
+    def reset(self) -> None:
         return NotImplementedError
 
 
 
-    
+d = DoorLockNode("name", IPv4Address("192.1.2.6"))    
