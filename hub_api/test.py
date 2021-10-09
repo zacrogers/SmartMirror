@@ -22,15 +22,20 @@ def get_lock_nodes() -> Dict[str, DoorLockNode]:
     raise NotImplementedError
 
 
-def add_node(name:str, ip_addr:IPv4Address, type:NodeType) -> bool:
+def add_node(label:str, ip_addr:IPv4Address, node_type:NodeType) -> bool:
     try:
-        response = requests.put(f"http://{API_IP_ADDRESS}/node/{name}/{ip_addr}/{type.name}")
+        # response = requests.put(f"http://{API_IP_ADDRESS}/node/{label}/{ip_addr}/{node_type.name}")
+        response = requests.put(f"http://{API_IP_ADDRESS}/manage_node/{label}", {"label":label, "ip_addr":str(ip_addr), "type":str(node_type.name)})
+
         status = response.status_code
 
         if status == 201:
             return True
 
         elif status == 400:
+            return False
+
+        elif status == 409:
             return False
 
     except Exception as e:
@@ -40,7 +45,7 @@ def add_node(name:str, ip_addr:IPv4Address, type:NodeType) -> bool:
 
 def delete_node(name:str) -> bool:
     try:
-        response = requests.delete(f"http://{API_IP_ADDRESS}/node_delete/{name}")
+        response = requests.delete(f"http://{API_IP_ADDRESS}/manage_node/{name}")
         status = response.status_code
 
         if status == 200:
@@ -84,20 +89,16 @@ def power_on(name:str, channel:int) -> None:
 def power_off(name:str, channel:int) -> None:
     raise NotImplementedError
 
-# BASE = "http://127.0.0.1:5000"
-# resp = requests.get(BASE + "/node/BedroomSensor/195.1.2.6/SENSOR")
 
-# print(resp)
+print(add_node("LoungeSensor", IPv4Address("192.0.99.1"), NodeType.SENSOR))
+print(add_node("BedroomSensor", IPv4Address("192.1.2.3"), NodeType.SENSOR))
+print(add_node("KitchenSensor", IPv4Address("192.2.2.3"), NodeType.SENSOR))
 
-# nt = "SENSOR"
-
-# print(NodeType["SENSOR"].name)
-
-# print(add_node("LoungeSensor", IPv4Address("192.0.99.1"), NodeType.SENSOR))
-print(get_sensor_values("LoungeSensor"))
+# print(delete_node("LoungeSensor"))
 # print(delete_node("BedroomSensor"))
+# print(delete_node("KitchenSensor"))
+
+print(get_sensor_values("LoungeSensor"))
 print(get_sensor_values("BedroomSensor"))
+print(get_sensor_values("KitchenSensor"))
 
-
-# s = SensorNode("sensors", IPv4Address("192.0.0.1"))
-# data = s.get_data()

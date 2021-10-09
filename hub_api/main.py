@@ -36,12 +36,12 @@ node_add_args.add_argument("label", type=str, help="Label for node is required."
 node_add_args.add_argument("ip_addr", type=str, help="IP address for node is required.", required=True)
 node_add_args.add_argument("type", type=str, help="Type of node is required.", required=True)
 
-# resource_fields = {
-#     'id': fields.Integer,
-#     'label': fields.String,
-#     'ip_addr': fields.String,
-#     'node_type':fields.
-# }
+resource_fields = {
+    'id': fields.Integer,
+    'label': fields.String,
+    'ip_addr': fields.String,
+    'node_type':fields
+}
 
 nodes = {}
 
@@ -52,14 +52,16 @@ class HelloWorld(Resource):
 
 
 class ManageNode(Resource):
-    def put(self, label, ip_addr, type):
+
+    @marshal_with(resource_fields)
+    def put(self, label):
         args = node_add_args.parse_args()
         result = NodeModel.query.filter_by(label=label).first()
-
+        
         if result:
-            abort(490, message="Node of type {type} called {label} already exists. Node labels must be unique.")
+            abort(409, message="Node of type {node_type} called {label} already exists. Node labels must be unique.")
 
-        node = NodeModel(args["label"], args["ip_addr"], str(args["type"]).upper())
+        node = NodeModel(label=args["label"], ip_addr=args["ip_addr"], node_type=args["type"])
         db.session.add(node)
         db.session.commit()
 
@@ -67,26 +69,6 @@ class ManageNode(Resource):
 
     def get(self, label:str):
         return {"It worked with only 1 arg":""},405
-
-    def delete(self, label:str, ip_addr, type):
-        args = node_add_args.parse_args()
-        result = NodeModel.query.filter_by(label=label).first()
-
-        if result:
-            return 404
-
-        db.session.delete(result)
-        db.session.commit()
-
-        return 200
-
-
-class UpdateNode(Resource):
-    def patch(self):
-        return {"data":"The server is alive!"}
-
-
-class DeleteNode(Resource):
 
     def delete(self, label:str):
         # args = node_add_args.parse_args()
@@ -98,7 +80,12 @@ class DeleteNode(Resource):
         db.session.delete(result)
         db.session.commit()
 
-        return {"dlight":result.label, "dtemperature":result.ip_addr, "dhumidity":result.node_type},200   
+        return 200
+
+
+class UpdateNode(Resource):
+    def patch(self):
+        return {"data":"The server is alive!"}
 
 
 class Sensor(Resource):
@@ -136,8 +123,7 @@ class Power(Resource):
 
 
 api.add_resource(HelloWorld, "/")
-api.add_resource(ManageNode, "/node/<string:label>/<string:ip_addr>/<string:type>")
-api.add_resource(DeleteNode, "/node_delete/<string:label>")
+api.add_resource(ManageNode, "/manage_node/<string:label>")
 # api.add_resource(UpdateNode, "/node/<string:label>/<string:ip_addr>/<string:type>")
 api.add_resource(Sensor, "/sensor/<string:label>")
 api.add_resource(Power, "/power/<string:label>")
