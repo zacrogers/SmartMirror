@@ -7,9 +7,9 @@ import json
 from bs4 import BeautifulSoup
 
 class NodeType(Enum):
-    BASE = auto()
-    SENSOR = auto()
-    POWER = auto()
+    BASE      = auto()
+    SENSOR    = auto()
+    POWER     = auto()
     DOOR_LOCK = auto()
 
 
@@ -33,6 +33,7 @@ class SensorNode(Node):
         ''' Fetches light, temperature and humidity data from web server as json'''
         try:
             data = requests.get(f"http://{str(self.ip_addr)}")
+            print(f"Status code for sensor node:{data.status_code}")
 
             if(data.status_code == 200):
                 soup = BeautifulSoup(data.text, 'html.parser')
@@ -44,7 +45,7 @@ class SensorNode(Node):
                 vals = list(values[1].values()) #  First row in list is empty so only return second
                 return {"light":vals[0], "temperature":vals[1], "humidity":vals[2]}
 
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             print(e)
             return {"light":0, "temperature":0, "humidity":0}
 

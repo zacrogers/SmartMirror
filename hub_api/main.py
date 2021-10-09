@@ -1,6 +1,6 @@
 from ipaddress import IPv4Address
-from flask import Flask
-from flask_restful import Api, Resource, reqparse, abort
+from flask import Flask, jsonify
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 from typing import List
 
@@ -17,10 +17,17 @@ class NodeModel(db.Model):
     ip_addr   = db.Column(db.String(15), unique=True, nullable=False)
     node_type = db.Column(db.String(10), nullable=False)
 
+    def __repr__(self) -> str:
+        return f"id:{self.id}, label:{self.label}, ip:{self.ip_addr}, type:{self.node_type}"
+
 
 # db.create_all()
 
-n = NodeModel(id=1, label="BedroomSensore", ip_addr="192.168.2.5", node_type="sensor")
+# n = NodeModel(id=1, label="BedroomSensor", ip_addr="192.168.2.5", node_type=NodeType.SENSOR)
+# db.session.add(n)
+# db.session.commit()
+
+# n = NodeModel(id=2, label="LoungeSensor", ip_addr="192.168.2.6", node_type=NodeType.SENSOR)
 # db.session.add(n)
 # db.session.commit()
 
@@ -28,6 +35,13 @@ node_add_args = reqparse.RequestParser()
 node_add_args.add_argument("label", type=str, help="Label for node is required.", required=True)
 node_add_args.add_argument("ip_addr", type=str, help="IP address for node is required.", required=True)
 node_add_args.add_argument("type", type=str, help="Type of node is required.", required=True)
+
+# resource_fields = {
+#     'id': fields.Integer,
+#     'label': fields.String,
+#     'ip_addr': fields.String,
+#     'node_type':fields.
+# }
 
 nodes = {}
 
@@ -38,27 +52,65 @@ class HelloWorld(Resource):
 
 
 class ManageNode(Resource):
-    def put(self):
+    def put(self, label, ip_addr, type):
         args = node_add_args.parse_args()
-        return {"data":"The server is alive!"}
+        result = NodeModel.query.filter_by(label=label).first()
+
+        if result:
+            abort(490, message="Node of type {type} called {label} already exists. Node labels must be unique.")
+
+        node = NodeModel(args["label"], args["ip_addr"], str(args["type"]).upper())
+        db.session.add(node)
+        db.session.commit()
+
+        return node, 201
+
+    def get(label:str):
+        return {"It worked with only 1 arg":""},405
+
+    def delete(label:str, ip_addr, type):
+        args = node_add_args.parse_args()
+        result = NodeModel.query.filter_by(label=label).first()
+
+        if result:
+            return 404
+
+        db.session.delete(result)
+        db.session.commit()
+
+        return 200
 
 
 class UpdateNode(Resource):
-    def get(self):
+    def patch(self):
         return {"data":"The server is alive!"}
 
 
 class DeleteNode(Resource):
-    def get(self):
-        return {"data":"The server is alive!"}    
+
+    def delete(self, label:str):
+        # args = node_add_args.parse_args()
+        result = NodeModel.query.filter_by(label=label).first()
+
+        if not result:
+            return 404
+
+        db.session.delete(result)
+        db.session.commit()
+
+        return {"dlight":result.label, "dtemperature":result.ip_addr, "dhumidity":result.node_type},200   
 
 
 class Sensor(Resource):
     def get(self, label):
         result = NodeModel.query.filter_by(label=label).first()
 
+        if not result:
+            return 204
+
         node = SensorNode(result.label, IPv4Address(result.ip_addr))
-        return {"name":result.label,"ip_addr":str(result.ip_addr)}
+        # return node.get_data(), 200
+        return {"light":result.label, "temperature":result.ip_addr, "humidity":result.node_type}, 200
         
     # def get(self, label):
     #     if label not in nodes:
@@ -85,6 +137,8 @@ class Power(Resource):
 
 api.add_resource(HelloWorld, "/")
 api.add_resource(ManageNode, "/node/<string:label>/<string:ip_addr>/<string:type>")
+api.add_resource(DeleteNode, "/node_delete/<string:label>")
+# api.add_resource(UpdateNode, "/node/<string:label>/<string:ip_addr>/<string:type>")
 api.add_resource(Sensor, "/sensor/<string:label>")
 api.add_resource(Power, "/power/<string:label>")
 # api.add_resource(DoorLock, "/doorlock/<ip_addr>")
