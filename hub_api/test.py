@@ -23,7 +23,19 @@ def get_lock_nodes() -> Dict[str, DoorLockNode]:
 
 
 def add_node(name:str, ip_addr:IPv4Address, type:NodeType) -> bool:
-    raise NotImplementedError
+    try:
+        response = requests.put(f"http://{API_IP_ADDRESS}/node/{name}/{ip_addr}/{type.name}")
+        status = response.status_code
+
+        if status == 201:
+            return True
+
+        elif status == 400:
+            return False
+
+    except Exception as e:
+        return e
+
 
 
 def delete_node(name:str) -> bool:
@@ -81,10 +93,10 @@ def power_off(name:str, channel:int) -> None:
 
 # print(NodeType["SENSOR"].name)
 
-
-print(get_sensor_values("BedroomSensor"))
+# print(add_node("LoungeSensor", IPv4Address("192.0.99.1"), NodeType.SENSOR))
+print(get_sensor_values("LoungeSensor"))
 # print(delete_node("BedroomSensor"))
-# print(get_sensor_values("BedroomSensor"))
+print(get_sensor_values("BedroomSensor"))
 
 
 # s = SensorNode("sensors", IPv4Address("192.0.0.1"))

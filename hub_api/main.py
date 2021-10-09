@@ -23,7 +23,7 @@ class NodeModel(db.Model):
 
 # db.create_all()
 
-# n = NodeModel(id=1, label="BedroomSensor", ip_addr="192.168.2.5", node_type=NodeType.SENSOR)
+# n = NodeModel(label="BedroomSensor", ip_addr="192.168.2.0", node_type="SENSOR")
 # db.session.add(n)
 # db.session.commit()
 
@@ -65,10 +65,10 @@ class ManageNode(Resource):
 
         return node, 201
 
-    def get(label:str):
+    def get(self, label:str):
         return {"It worked with only 1 arg":""},405
 
-    def delete(label:str, ip_addr, type):
+    def delete(self, label:str, ip_addr, type):
         args = node_add_args.parse_args()
         result = NodeModel.query.filter_by(label=label).first()
 
