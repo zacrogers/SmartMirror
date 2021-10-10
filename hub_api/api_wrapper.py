@@ -125,7 +125,8 @@ def update_node(label:str, new_label:str, new_ip_addr:IPv4Address=None) -> bool:
 def get_sensor_values(name:str) -> Dict[str, float]:
     ''' Get values from sensor node as json object. Returns empty json object if node doesn't exist.'''
     try:
-        response = requests.get(f"http://{API_IP_ADDRESS}/sensor/{name}")
+        response = requests.get(f"http://{API_IP_ADDRESS}/sensor/{name}", timeout=3)
+        response.raise_for_status()
         status = response.status_code
 
         if status == 200:
@@ -134,8 +135,14 @@ def get_sensor_values(name:str) -> Dict[str, float]:
         elif status == 204:
             return json.dumps({})
 
-    except Exception as e:
-        return e
+    except requests.exceptions.HTTPError as errh:
+        print(errh)
+    except requests.exceptions.ConnectionError as errc:
+        print(errc)
+    except requests.exceptions.Timeout as errt:
+        print(errt)
+    except requests.exceptions.RequestException as err:
+        print(err)
 
 
 ''' 
@@ -207,7 +214,7 @@ def get_door_lock_state(label:str) -> bool:
 # print(get_sensor_values("BedroomSensor"))
 # print(get_sensor_values("KitchenSensor"))
 
-print(get_sensor_values("LoungeSensor"))
+print(get_sensor_values("LoungeSensor1"))
 
 # print(update_node("LoungeSensor", "LoungeSensor1"))
 

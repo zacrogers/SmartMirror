@@ -116,8 +116,8 @@ class Sensor(Resource):
             return 204
 
         node = SensorNode(result.label, IPv4Address(result.ip_addr))
-        # return node.get_data(), 200
-        return {"light":result.label, "temperature":result.ip_addr, "humidity":result.node_type}, 200
+        return node.get_data(), 200
+        # return {"light":result.label, "temperature":result.ip_addr, "humidity":result.node_type}, 200
         
 
 class Power(Resource):
