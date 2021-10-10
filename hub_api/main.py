@@ -31,31 +31,32 @@ class NodeModel(db.Model):
 # db.session.add(n)
 # db.session.commit()
 
-node_add_args = reqparse.RequestParser()
-node_add_args.add_argument("label", type=str, help="Label for node is required.", required=True)
-node_add_args.add_argument("ip_addr", type=str, help="IP address for node is required.", required=True)
-node_add_args.add_argument("type", type=str, help="Type of node is required.", required=True)
+node_put_args = reqparse.RequestParser()
+node_put_args.add_argument("label", type=str, help="Label for node is required.", required=True)
+node_put_args.add_argument("ip_addr", type=str, help="IP address for node is required.", required=True)
+node_put_args.add_argument("type", type=str, help="Type of node is required.", required=True)
+
+node_patch_args = reqparse.RequestParser()
+node_patch_args.add_argument("new_label", type=str, help="Label for node is required.", required=True)
+node_patch_args.add_argument("ip_addr", type=str, required=False)
+
+pwr_node_put_args = reqparse.RequestParser()
+pwr_node_put_args.add_argument("channel", type=int, help="Channel for power node is required.", required=True)
+pwr_node_put_args.add_argument("state", type=bool, help="State for power node is required.", required=True)
 
 resource_fields = {
-    'id': fields.Integer,
-    'label': fields.String,
-    'ip_addr': fields.String,
-    'node_type':fields
+    'id'        : fields.Integer,
+    'label'     : fields.String,
+    'ip_addr'   : fields.String,
+    'node_type' : fields.String
 }
-
-nodes = {}
-
-
-class HelloWorld(Resource):
-    def get(self):
-        return {"data":"The server is alive!"}
 
 
 class ManageNode(Resource):
 
     @marshal_with(resource_fields)
-    def put(self, label):
-        args = node_add_args.parse_args()
+    def put(self, label:str):
+        args = node_put_args.parse_args()
         result = NodeModel.query.filter_by(label=label).first()
         
         if result:
@@ -67,29 +68,48 @@ class ManageNode(Resource):
 
         return node, 201
 
+    @marshal_with(resource_fields)
     def get(self, label:str):
-        return {"It worked with only 1 arg":""},405
+        result = NodeModel.query.filter_by(label=label).first()
+        
+        if not result:
+            abort(404, message="Node called {label} doesn't exist.")
+
+        node = NodeModel(label=result.label, ip_addr=result.ip_addr, node_type=result.node_type)
+ 
+        return node, 200
 
     def delete(self, label:str):
-        # args = node_add_args.parse_args()
         result = NodeModel.query.filter_by(label=label).first()
 
         if not result:
-            return 404
+            abort(404, message="Node called {label} doesn't exist.")
 
         db.session.delete(result)
         db.session.commit()
 
         return 200
 
+    def patch(self, label:str):
+        args = node_patch_args.parse_args()
+        result = NodeModel.query.filter_by(label=label).first()
 
-class UpdateNode(Resource):
-    def patch(self):
-        return {"data":"The server is alive!"}
+        if not result:
+            abort(404, message="Node called {label} doesn't exist.")
+
+        result.label = args["new_label"]
+
+        if "ip_addr" in args.keys():
+            result.ip_addr = args["ip_addr"]
+
+        db.session.merge(result)
+        db.session.commit()
+
+        return 200
 
 
 class Sensor(Resource):
-    def get(self, label):
+    def get(self, label:str):
         result = NodeModel.query.filter_by(label=label).first()
 
         if not result:
@@ -99,35 +119,48 @@ class Sensor(Resource):
         # return node.get_data(), 200
         return {"light":result.label, "temperature":result.ip_addr, "humidity":result.node_type}, 200
         
-    # def get(self, label):
-    #     if label not in nodes:
-    #         abort(404, message=f"No sensor node called {label} exists.")
-
-    #     node = nodes[label]
-    #     return node.get_data()
-
 
 class Power(Resource):
-    power_default = {"light":"99", "temperature":"99", "humidity":"99"}
 
-    def get(self):
+    def get(self, label:str):
+        result = NodeModel.query.filter_by(label=label).first()
+
+        if not result:
+            return 404
+
+        node = PowerStripNode(result.label, IPv4Address(result.ip_addr))
+        states = node.get_states()
+
+        return states, 200
+
+    def put(self, label:str):
+        pwr_node_put_args.parse_args()
+        result = NodeModel.query.filter_by(label=label).first()
+
+        if not result:
+            return 404
+
+        node = PowerStripNode(result.label, IPv4Address(result.ip_addr))
+
+        if result["state"] == True:
+            node.channel_on(result["channel"])
+        else:
+            node.channel_off(result["channel"])
+
+        states = node.get_states()
+
+        return states, 200
+
+
+class DoorLock(Resource):
+    def put(self, label:str):
         return {"data":"Hello world"}
 
-    def post(self):
-        return NotImplementedError
 
-
-# class DoorLock(Resource):
-#     def get(self):
-#         return {"data":"Hello world"}
-
-
-api.add_resource(HelloWorld, "/")
 api.add_resource(ManageNode, "/manage_node/<string:label>")
-# api.add_resource(UpdateNode, "/node/<string:label>/<string:ip_addr>/<string:type>")
 api.add_resource(Sensor, "/sensor/<string:label>")
 api.add_resource(Power, "/power/<string:label>")
-# api.add_resource(DoorLock, "/doorlock/<ip_addr>")
+api.add_resource(DoorLock, "/doorlock/<string:label>")
 
 
 if __name__ == "__main__":

@@ -95,6 +95,4 @@ class DoorLockNode(Node):
     def reset(self) -> None:
         return NotImplementedError
 
-
-
-d = DoorLockNode("name", IPv4Address("192.1.2.6"))    
+  
