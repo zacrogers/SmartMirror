@@ -1,4 +1,4 @@
-# smart_mirror
+# Smart Mirror
 Smart mirror built in python with tkinter GUI
 
 Features:
