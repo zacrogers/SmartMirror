@@ -12,7 +12,7 @@ def set_ip_address(ip: IPv4Address, port: int) -> None:
     API_IP_ADDRESS = f"{str(ip)}:{port}"
 
 
-""" 
+"""
     Node management methods
 """
 
@@ -34,7 +34,20 @@ def get_nodes() -> Dict[str, NodeType]:
 
 
 def get_node_labels() -> List[str]:
-    raise NotImplementedError
+    try:
+        response = requests.get(f"http://{API_IP_ADDRESS}/node_info", "get_all_labels")
+
+        status = response.status_code
+
+        if status == 200:
+            node_labels = response.json()
+            return list(node_labels.values())
+
+        else:
+            return []
+
+    except Exception as e:
+        return e
 
 
 def get_node(label: str) -> Node:
@@ -121,8 +134,8 @@ def update_node(label: str, new_label: str, new_ip_addr: IPv4Address = None) -> 
         return e
 
 
-""" 
-    Sensor node methods 
+"""
+    Sensor node methods
 """
 
 
@@ -149,7 +162,7 @@ def get_sensor_values(name: str) -> Dict[str, float]:
         print(err)
 
 
-""" 
+"""
     Power strip node methods
 """
 
@@ -191,7 +204,7 @@ def get_power_states(label: str) -> List[bool]:
 
 
 """
-    Door lock node methods 
+    Door lock node methods
 """
 
 
@@ -220,8 +233,10 @@ if __name__ == "__main__":
     # print(get_sensor_values("BedroomSensor"))
     # print(get_sensor_values("KitchenSensor"))
 
-    print(get_sensor_values("LoungeSensor1"))
+    # print(get_sensor_values("LoungeSensor1"))
 
     # print(update_node("LoungeSensor", "LoungeSensor1"))
 
     # print(get_sensor_values("LoungeSensor1"))
+
+    print(get_node_labels())
