@@ -34,9 +34,9 @@ def get_nodes() -> Dict[str, NodeType]:
 
 
 def get_node_labels() -> List[str]:
+    """Get list of labels for all nodes in database. Returns an empty list if unsuccessful."""
     try:
         response = requests.get(f"http://{API_IP_ADDRESS}/node_info", "get_all_labels")
-
         status = response.status_code
 
         if status == 200:

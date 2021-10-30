@@ -2,11 +2,13 @@ from ipaddress import IPv4Address
 from flask import Flask, jsonify
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from typing import List
 
 from node_types import NodeType, Node, SensorNode, PowerStripNode
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 db = SQLAlchemy(app)
@@ -76,6 +78,7 @@ class NodeInfo(Resource):
             node_labels = {
                 i: node.label for i, node in enumerate(NodeModel.query.all())
             }
+            print(node_labels)
 
         return node_labels, 200
 
