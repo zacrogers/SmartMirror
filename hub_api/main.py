@@ -24,6 +24,8 @@ class NodeModel(db.Model):
         return f"id:{self.id}, label:{self.label}, ip:{self.ip_addr}, type:{self.node_type}"
 
 
+# This is a comment
+
 # db.create_all()
 
 # n = NodeModel(label="BedroomSensor", ip_addr="192.168.2.0", node_type="SENSOR")

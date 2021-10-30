@@ -6,6 +6,8 @@ from node_types import DoorLockNode, Node, NodeType, PowerStripNode, SensorNode
 
 API_IP_ADDRESS = "127.0.0.1:5000"
 
+test = 0
+
 
 def set_ip_address(ip: IPv4Address, port: int) -> None:
     global API_IP_ADDRESS
