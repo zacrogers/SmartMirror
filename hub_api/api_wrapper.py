@@ -225,7 +225,7 @@ def get_door_lock_state(label: str) -> bool:
 if __name__ == "__main__":
     # print(add_node("LoungeSensor", IPv4Address("192.0.99.1"), NodeType.SENSOR))
     # print(add_node("BedroomSensor", IPv4Address("192.1.2.3"), NodeType.SENSOR))
-    # print(add_node("KitchenSensor", IPv4Address("192.2.2.3"), NodeType.SENSOR))
+    print(add_node("BathroomSensor", IPv4Address("192.2.2.9"), NodeType.SENSOR))
 
     # print(delete_node("LoungeSensor"))
     # print(delete_node("BedroomSensor"))
@@ -241,4 +241,4 @@ if __name__ == "__main__":
 
     # print(get_sensor_values("LoungeSensor1"))
 
-    print(get_node_labels())
+    # print(get_node_labels())
