@@ -38,6 +38,7 @@ class NodeModel(db.Model):
 
 node_info_args = reqparse.RequestParser()
 node_info_args.add_argument("get_all_labels", type=str)
+node_info_args.add_argument("get_node_types", type=str)
 
 node_put_args = reqparse.RequestParser()
 node_put_args.add_argument(
@@ -75,14 +76,21 @@ resource_fields = {
 class NodeInfo(Resource):
     def get(self):
         args = node_info_args.parse_args()
+        print(f"Args:{args}")
 
-        if "get_all_labels" in args.keys():
+        if args["get_all_labels"]:
             node_labels = {
                 i: node.label for i, node in enumerate(NodeModel.query.all())
             }
             print(node_labels)
+            return node_labels, 200
 
-        return node_labels, 200
+        if args["get_node_types"]:
+            node_types = {i: str(t) for i, t in enumerate(NodeType.name_list())}
+            print(node_types)
+            return node_types, 200
+
+        return {}, 200
 
 
 class ManageNode(Resource):

@@ -53,7 +53,7 @@ export const SensorNodeList = () => {
     const [sensorLabels, setSensorLabels] = useState({});
 
     useEffect(() => {
-        fetch('http://127.0.0.1:5000/node_info', {'get_all_labels':0})
+        fetch('http://127.0.0.1:5000/node_info?'+new URLSearchParams({'get_all_labels':1}))
             .then(res => res.json())
             .then(
                 (data) =>{
