@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
 
-const nodeTypes = ["Sensor", ];
 
-export const AddNodeForm = (props) => {
+export const AddNodeForm = () => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [nodeTypes, setNodeTypes] = useState(null);
+    const [nodeTypes, setNodeTypes] = useState({});
 
     useEffect(() => {
         fetch('http://127.0.0.1:5000/node_info?'+new URLSearchParams({'get_node_types':1}))
@@ -13,7 +12,7 @@ export const AddNodeForm = (props) => {
             .then(
                 (data) =>{
                     setIsLoaded(true);
-                    setSensorLabels(data);
+                    setNodeTypes(data);
                 },
                 (error) => {
                     setIsLoaded(true);
@@ -31,13 +30,30 @@ export const AddNodeForm = (props) => {
     } else {
         return(
             <div>
-                <ul>
-                    {Object.values(nodeTypes).map(nodeType=>
-                            <li>
-                                {nodeType}
-                            </li>
-                        )}
-                </ul>
+                <form>
+                    <label>Label:</label>
+                    <input
+                        name="nodeLabelInput"
+                        type="text"/>
+                    <br/>
+
+                    <label>Type:</label>
+                    <select>
+                        {Object.values(nodeTypes).map(nodeType=>
+                                <option>
+                                    {nodeType}
+                                </option>
+                            )}
+                    </select>
+                    <br/>
+
+                    <label>IP:</label>
+                    <input
+                        name="ipAddressInput"
+                        type="text"/>
+                    <br/>
+                    <button>Add Node</button>
+                </form>
             </div>
         )
     }
