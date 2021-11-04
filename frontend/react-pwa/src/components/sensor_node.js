@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 
-
 export const SensorNodeData = (props) => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -21,8 +20,6 @@ export const SensorNodeData = (props) => {
                 }
             )
     }, [])
-
-    console.log('http://'+props.api_ip+'/sensor/'+props.label)
 
     if(error){
         return <div>Error: {error.message}</div>
@@ -47,13 +44,13 @@ export const SensorNodeData = (props) => {
 }
 
 
-export const SensorNodeList = () => {
+export const SensorNodeList = (props) => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [sensorLabels, setSensorLabels] = useState({});
 
     useEffect(() => {
-        fetch('http://127.0.0.1:5000/node_info?'+new URLSearchParams({'get_all_labels':1}))
+        fetch('http://'+props.api_ip+'/node_info?'+new URLSearchParams({'get_all_labels':1}))
             .then(res => res.json())
             .then(
                 (data) =>{

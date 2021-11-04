@@ -7,7 +7,8 @@ export const AddNodeForm = (props) => {
     const [nodeTypes, setNodeTypes] = useState({});
 
     useEffect(() => {
-        fetch('http://'+props.api_ip+'/node_info?'+new URLSearchParams({'get_node_types':1}))
+        var params = new URLSearchParams({'get_node_types':1})
+        fetch('http://'+props.api_ip+'/node_info?'+params)
             .then(res => res.json())
             .then(
                 (data) =>{
