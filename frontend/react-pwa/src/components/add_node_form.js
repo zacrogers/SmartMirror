@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 
 
-export const AddNodeForm = () => {
+export const AddNodeForm = (props) => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [nodeTypes, setNodeTypes] = useState({});
 
     useEffect(() => {
-        fetch('http://127.0.0.1:5000/node_info?'+new URLSearchParams({'get_node_types':1}))
+        fetch('http://'+props.api_ip+'/node_info?'+new URLSearchParams({'get_node_types':1}))
             .then(res => res.json())
             .then(
                 (data) =>{
@@ -20,8 +20,6 @@ export const AddNodeForm = () => {
                 }
             )
     }, [])
-
-    console.log(nodeTypes);
 
     if(error){
         return <div>Error: {error.message}</div>
@@ -43,7 +41,7 @@ export const AddNodeForm = () => {
                                 <option>
                                     {nodeType}
                                 </option>
-                            )}
+                        )}
                     </select>
                     <br/>
 

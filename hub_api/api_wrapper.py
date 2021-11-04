@@ -38,7 +38,9 @@ def get_nodes() -> Dict[str, NodeType]:
 def get_node_labels() -> List[str]:
     """Get list of labels for all nodes in database. Returns an empty list if unsuccessful."""
     try:
-        response = requests.get(f"http://{API_IP_ADDRESS}/node_info", "get_all_labels")
+        response = requests.get(
+            f"http://{API_IP_ADDRESS}/node_info", {"get_all_labels": 1}
+        )
         status = response.status_code
 
         if status == 200:
@@ -225,7 +227,7 @@ def get_door_lock_state(label: str) -> bool:
 if __name__ == "__main__":
     # print(add_node("LoungeSensor", IPv4Address("192.0.99.1"), NodeType.SENSOR))
     # print(add_node("BedroomSensor", IPv4Address("192.1.2.3"), NodeType.SENSOR))
-    print(add_node("BathroomSensor", IPv4Address("192.2.2.9"), NodeType.SENSOR))
+    # print(add_node("ActualBedroomSensor", IPv4Address("192.168.1.72"), NodeType.SENSOR))
 
     # print(delete_node("LoungeSensor"))
     # print(delete_node("BedroomSensor"))
@@ -241,4 +243,4 @@ if __name__ == "__main__":
 
     # print(get_sensor_values("LoungeSensor1"))
 
-    # print(get_node_labels())
+    print(get_node_labels())

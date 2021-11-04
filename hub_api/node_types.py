@@ -44,13 +44,14 @@ class SensorNode(Node):
     def get_data(self) -> dict:
         """Fetches light, temperature and humidity data from web server as json"""
         try:
-            data = requests.get(f"http://{str(self.ip_addr)}")
+            data = requests.get(f"http://{str(self.ip_addr)}/sensors")
             print(f"Status code for sensor node:{data.status_code}")
 
             if data.status_code == 200:
                 soup = BeautifulSoup(data.text, "html.parser")
                 table = soup.find("table", class_="sensor_values")
                 headers = [header.text for header in table.findAll("th")]
+
                 values = [
                     {headers[i]: cell.text for i, cell in enumerate(row.find_all("td"))}
                     for row in table.find_all("tr")

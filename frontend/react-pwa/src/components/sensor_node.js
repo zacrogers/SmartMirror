@@ -8,7 +8,7 @@ export const SensorNodeData = (props) => {
 
     useEffect(() => {
         var label = props.label;
-        fetch('http://127.0.0.1:5000/sensor/'+props.label)
+        fetch('http://'+props.api_ip+'/sensor/'+props.label)
             .then(res => res.json())
             .then(
                 (data) =>{
@@ -22,7 +22,7 @@ export const SensorNodeData = (props) => {
             )
     }, [])
 
-    console.log('http://127.0.0.1:5000/sensor/'+props.label)
+    console.log('http://'+props.api_ip+'/sensor/'+props.label)
 
     if(error){
         return <div>Error: {error.message}</div>
