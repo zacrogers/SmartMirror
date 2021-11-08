@@ -22,22 +22,54 @@ export const AddNodeForm = (props) => {
             )
     }, [])
 
-    if(error){
-        return <div>Error: {error.message}</div>
-    } else if (!isLoaded){
-        return <div> Loading...</div>
-    } else {
+    // if(error){
+    //     return (
+    //         <div>
+    //             <form>
+    //                 <label>Add Node</label>
+    //                 <br/>
+
+    //                 <label>Label:</label>
+    //                 <input
+    //                     name="nodeLabelInput"
+    //                     type="text"
+    //                     disabled="true"/>
+    //                 <br/>
+
+    //                 <label>Type:</label>
+    //                 <select disabled="true">
+    //                     <option>Not Connected</option>
+    //                 </select>
+    //                 <br/>
+
+    //                 <label>IP:</label>
+    //                 <input
+    //                     name="ipAddressInput"
+    //                     type="text"
+    //                     disabled="true"/>
+    //                 <br/>
+    //                 <button disabled="true">Add Node</button>
+    //             </form>
+    //         </div>
+    //     )
+    // } else if (!isLoaded){
+    //     return <div> Loading...</div>
+    // } else {
         return(
             <div>
                 <form>
+                    <label>Add Node</label>
+                    <br/>
+
                     <label>Label:</label>
                     <input
                         name="nodeLabelInput"
-                        type="text"/>
+                        type="text"
+                        disabled={error ? "true":"false"}/>
                     <br/>
 
                     <label>Type:</label>
-                    <select>
+                    <select disabled={error ? "true":"false"}>
                         {Object.values(nodeTypes).map(nodeType=>
                                 <option>
                                     {nodeType}
@@ -49,11 +81,16 @@ export const AddNodeForm = (props) => {
                     <label>IP:</label>
                     <input
                         name="ipAddressInput"
-                        type="text"/>
+                        type="text"
+                        disabled={error ? "true":"false"}/>
                     <br/>
-                    <button>Add Node</button>
+
+                    {error
+                        ? <button onClick={()=>{alert("API not connected")}}>Add Node</button>
+                        : <button onClick={()=>{alert("API connected")}}>Add Node</button>
+                    }
                 </form>
             </div>
         )
-    }
+    // }
 }
