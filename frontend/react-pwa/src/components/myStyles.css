@@ -48,14 +48,20 @@
 
 
 /* AddNodeForm */
-.node-form-inputs{
-    width: 100%;
-    justify-self: flex-start;
-}
-
 .node-form-container{
     display:grid;
     grid-template-columns: 1fr 3fr;
+    row-gap: 5px;
+    padding-bottom: 5px;
+}
+
+.node-form-inputs{
+    width: 100%;
+    justify-self: flex-start;
+    background-color: rgb(51, 49, 87);
+    color:white;
+    border-color: rgb(123, 121, 155);
+    border-radius: 0.1cm;
 }
 
 .node-form-label{
@@ -63,6 +69,17 @@
     display: inline-block;
     font-size: 20px;
     text-align: left;
+}
+
+.node-form-button{
+    width:100%;
+    color: white;
+    background-color:rgb(30, 69, 196);
+    border-color: rgb(128, 128, 160);
+    border-width: 1px;
+    border-radius: 0.1cm;
+    height: 30px;
+    /* padding-top: 100px; */
 }
 
 

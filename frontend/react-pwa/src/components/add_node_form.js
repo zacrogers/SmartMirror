@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
+import {Button} from "@mui/material"
 import { strFirstUpper } from '../helpers';
 import './myStyles.css';
 
@@ -6,6 +7,7 @@ export const AddNodeForm = (props) => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [nodeTypes, setNodeTypes] = useState({});
+    const [type, setType] = useState(null);
 
     useEffect(() => {
         var params = new URLSearchParams({'get_node_types':1})
@@ -22,6 +24,11 @@ export const AddNodeForm = (props) => {
                 }
             )
     }, [])
+
+    const updateType = (event )=>
+    {
+        setType(event.target.value);
+    }
 
     // if(error){
     //     return (
@@ -58,7 +65,11 @@ export const AddNodeForm = (props) => {
     // } else {
         return(
             <div className="card-element">
-                <label className="node-form-inputs">Add Node</label>
+                <div className="card-element-heading">
+                    <label >Add Node</label>
+                    <div className="card-element-divider"></div>
+                </div>
+
                 <form>
                     <div  className="node-form-container">
                     <label className="node-form-label" for="nodeLabelInput">Label:</label>
@@ -71,6 +82,7 @@ export const AddNodeForm = (props) => {
                         />
 
                     <label className="node-form-label">Type:</label>
+
                     <select className="node-form-inputs">
                         {/* <select disabled={error ? "true":"false"}> */}
                         {Object.values(nodeTypes).map(nodeType=>
@@ -85,12 +97,13 @@ export const AddNodeForm = (props) => {
                         name="ipAddressInput"
                         className="node-form-inputs"
                         type="text"
-                        disabled={error ? "true":"false"}/>
+                        // disabled={error ? "true":"false"}
+                        />
                     </div>
 
                     {error
-                        ? <button onClick={()=>{alert("API not connected")}}>Add Node</button>
-                        : <button onClick={()=>{alert("API connected")}}>Add Node</button>
+                        ? <button className="node-form-button" onClick={()=>{alert("API not connected")}}>Add Node</button>
+                        : <button className="node-form-button" onClick={()=>{alert("API connected")}}>Add Node</button>
                     }
                 </form>
             </div>
