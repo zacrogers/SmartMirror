@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Container} from '@mui/material';
-
+import './myStyles.css';
 
 let labels = ["1", "2", "3", "4"];
 let nodeLabel = "NodeLabel";
@@ -14,7 +14,7 @@ export const PowerNode = () =>{
     }, [])
 
     return(
-        <div>
+        <div className="card-element">
             <Container>
             <label>{nodeLabel}</label>
             <br/>

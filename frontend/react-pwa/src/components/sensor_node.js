@@ -27,7 +27,8 @@ export const SensorNodeData = (props) => {
         return <div> Loading...</div>
     } else {
         return(
-            <div>
+            <div className="card-element">
+                <label>{props.label}</label>
                 <ul>
                     <div>
                     {
@@ -71,13 +72,15 @@ export const SensorNodeList = (props) => {
     } else {
         return(
             <div>
-                <ul>
+                <label>Sensor Nodes</label>
+                <br/>
+                <select>
                     {Object.values(sensorLabels).map(label=>
-                        <li>
+                        <option>
                             {label}
-                        </li>
+                        </option>
                     )}
-                </ul>
+                </select>
             </div>
         )
     }

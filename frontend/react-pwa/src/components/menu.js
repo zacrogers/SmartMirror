@@ -100,7 +100,11 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar
+        position="fixed"
+        sx={{backgroundColor:"#1a237e"}}
+        open={open}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -119,31 +123,31 @@ export default function MiniDrawer() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+      <Drawer sx={{color:"#1a237e"}} variant="permanent" open={open}>
+        <DrawerHeader sx={{backgroundColor:"#1a237e"}}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List sx={{backgroundColor:"#1a237e"}}>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon sx={{color:"#e8eaf6"}}/> : <MailIcon sx={{color:"#e8eaf6"}}/>}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
         <Divider />
-        <List>
+        <List sx={{backgroundColor:"#1a237e"}}>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon sx={{color:"#e8eaf6"}}/> : <MailIcon sx={{color:"#e8eaf6"}}/>}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText sx={{color:"#e8eaf6"}} primary={text} />
             </ListItem>
           ))}
         </List>

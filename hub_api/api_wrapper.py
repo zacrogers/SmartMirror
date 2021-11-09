@@ -9,6 +9,12 @@ API_IP_ADDRESS = "127.0.0.1:5000"
 test = 0
 
 
+class HubApi:
+    def __init__(self, token, ip_address) -> None:
+        self._token = token
+        self._ip_address = ip_address
+
+
 def set_ip_address(ip: IPv4Address, port: int) -> None:
     global API_IP_ADDRESS
     API_IP_ADDRESS = f"{str(ip)}:{port}"

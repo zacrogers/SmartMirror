@@ -1,9 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import { strFirstUpper } from '../helpers';
 
-function strFirstUpper(string){
-    var lower = string.toString().toLowerCase();
-    return lower.charAt(0).toUpperCase() + lower.slice(1)
-}
 
 export const NodeInfo = (props) => {
     const [error, setError] = useState(null);

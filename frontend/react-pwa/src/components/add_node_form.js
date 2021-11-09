@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-
+import { strFirstUpper } from '../helpers';
+import './myStyles.css';
 
 export const AddNodeForm = (props) => {
     const [error, setError] = useState(null);
@@ -57,33 +58,43 @@ export const AddNodeForm = (props) => {
     // } else {
         return(
             <div>
+                <label className="full-width">Add Node</label>
                 <form>
-                    <label>Add Node</label>
-                    <br/>
+                    <div  className="node-form-container">
+                    {/* <br/> */}
 
-                    <label>Label:</label>
+                    {/* <div> */}
+                    <label className="node-form-label" for="nodeLabelInput">Label:</label>
                     <input
                         name="nodeLabelInput"
+                        id="nodeLabelInput"
+                        className="full-width"
                         type="text"
-                        disabled={error ? "true":"false"}/>
-                    <br/>
+                        // disabled={error ? "true":"false"}
+                        />
+                    {/* </div> */}
 
-                    <label>Type:</label>
-                    <select disabled={error ? "true":"false"}>
+                    {/* <div> */}
+                    <label className="node-form-label">Type:</label>
+                    <select className="full-width">
+                        {/* <select disabled={error ? "true":"false"}> */}
                         {Object.values(nodeTypes).map(nodeType=>
                                 <option>
-                                    {nodeType}
+                                    {strFirstUpper(nodeType)}
                                 </option>
                         )}
                     </select>
-                    <br/>
+                    {/* </div> */}
 
-                    <label>IP:</label>
+                    {/* <div> */}
+                    <label className="node-form-label">IP:</label>
+                    {/* <br/> */}
                     <input
                         name="ipAddressInput"
+                        className="full-width"
                         type="text"
                         disabled={error ? "true":"false"}/>
-                    <br/>
+                    </div>
 
                     {error
                         ? <button onClick={()=>{alert("API not connected")}}>Add Node</button>
