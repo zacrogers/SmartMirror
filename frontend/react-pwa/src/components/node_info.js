@@ -29,20 +29,21 @@ export const NodeInfo = (props) => {
         return <div> Loading...</div>
     } else {
         return(
-            <div className="node-info-container card-element">
-                <div>
-                    <label className="node-info-label">Label: </label>
-                    <label className="node-info-label">{sensorInfo.label}</label>
+            <div className="card-element">
+                <div  className="card-element-heading">
+                    <label>Node Info</label>
+                    <div className="card-element-divider"></div>
                 </div>
 
-                <div>
-                    <label className="node-info-label">Type: </label>
-                    <label className="node-info-label">{sensorInfo.node_type}</label>
-                </div>
+                <div className="node-info-container ">
+                    <label className="card-element-label">Label </label>
+                    <label className="card-element-text">{sensorInfo.label}</label>
 
-                <div>
-                    <label className="node-info-label">IP: </label>
-                    <label className="node-info-label">{sensorInfo.ip_addr}</label>
+                    <label className="card-element-label">Type </label>
+                    <label className="card-element-text">{sensorInfo.node_type}</label>
+
+                    <label className="card-element-label">IP </label>
+                    <label className="card-element-text">{sensorInfo.ip_addr}</label>
                 </div>
                 {/* <ul> */}
                     {/* <div> */}

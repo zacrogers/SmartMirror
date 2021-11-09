@@ -57,7 +57,7 @@ export const AddNodeForm = (props) => {
     //     return <div> Loading...</div>
     // } else {
         return(
-            <div>
+            <div className="card-element">
                 <label className="node-form-inputs">Add Node</label>
                 <form>
                     <div  className="node-form-container">

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Button, Container} from '@mui/material';
 
 export const SensorNodeData = (props) => {
     const [error, setError] = useState(null);
@@ -24,21 +25,43 @@ export const SensorNodeData = (props) => {
     if(error){
         return <div>Error: {error.message}</div>
     } else if (!isLoaded){
-        return <div> Loading...</div>
+        return(
+            <div className="card-element">
+            <div  className="card-element-heading">
+                <label>{props.label}</label>
+                <div className="card-element-divider"></div>
+            </div>
+
+            <div className="sensor-node-data-container">
+                    <label className="card-element-label">Light </label>
+                    <label className="card-element-text">Loading...</label>
+
+                    <label className="card-element-label">Temperature </label>
+                    <label className="card-element-text">Loading...</label>
+
+                    <label className="card-element-label">Humidity </label>
+                    <label className="card-element-text">Loading...</label>
+            </div>
+        </div>
+        )
     } else {
         return(
             <div className="card-element">
-                <label>{props.label}</label>
-                <ul>
-                    <div>
-                    {
-                        Object.entries(sensorData).map(
-                            ([key, value]) =>
-                            // <h1>{key}</h1>
-                            <li key={key}>{key}:{value}</li>
-                    )}
-                    </div>
-                </ul>
+                <div  className="card-element-heading">
+                    <label>{props.label}</label>
+                    <div className="card-element-divider"></div>
+                </div>
+
+                <div className="sensor-node-data-container">
+                        <label className="card-element-label">Light </label>
+                        <label className="card-element-text">{sensorData.light}</label>
+
+                        <label className="card-element-label">Temperature </label>
+                        <label className="card-element-text">{sensorData.temperature}</label>
+
+                        <label className="card-element-label">Humidity </label>
+                        <label className="card-element-text">{sensorData.humidity}</label>
+                </div>
             </div>
         )
     }

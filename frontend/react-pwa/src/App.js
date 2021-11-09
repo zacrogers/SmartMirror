@@ -17,7 +17,7 @@ function App() {
     <NodeInfo api_ip={apiIpAddr} label="ActualBedroomSensor"/>,
     <SensorNodeList api_ip={apiIpAddr}/>,
     <SensorNodeData api_ip={apiIpAddr} label="ActualBedroomSensor"/>,
-    <PowerNode label="Power Node Label"/>,
+    <PowerNode label="Power Node Heading"/>,
     <AddNodeForm api_ip={apiIpAddr}/>
   ];
 

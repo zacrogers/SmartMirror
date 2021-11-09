@@ -4,7 +4,7 @@ import React from 'react';
 export const CardRow = (props) =>{
 
     return(
-        <div>
+        <div className="card-row">
             {props.elements}
         </div>
     )

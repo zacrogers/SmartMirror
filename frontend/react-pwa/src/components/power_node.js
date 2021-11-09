@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Button, Container} from '@mui/material';
+import {Button, Container, Divider} from '@mui/material';
 import './myStyles.css';
 
 let labels = ["1", "2", "3", "4"];
@@ -15,17 +15,26 @@ export const PowerNode = (props) =>{
 
     return(
         <div className="card-element">
-            <Container>
-            <label>{props.label}</label>
-            <br/>
-            {channelLabels.map(label=>
+            {/* <Container> */}
+            <div className="card-element-heading">
+                <label>{props.label}</label>
+                <div className="card-element-divider"></div>
+            </div>
+            {/* <br/> */}
+            <div className="power-node-container">
+                <Button variant="contained">1</Button>
+                <Button variant="contained">1</Button>
+                <Button variant="contained">1</Button>
+                <Button variant="contained">1</Button>
+            {/* {channelLabels.map(label=>
                     <Button
                         disabled={error ? "true":"false"}
                         variant="contained">
                         {label}
                     </Button>
-            )}
-            </Container>
+            )} */}
+            </div>
+            {/* </Container> */}
         </div>
     )
 }
