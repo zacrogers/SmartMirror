@@ -1,14 +1,31 @@
 import React, {useState, useEffect} from 'react';
 import { strFirstUpper } from '../helpers';
 import './myStyles.css';
+import { SensorNodeList } from './SensorNodeList';
 
 export const NodeInfo = (props) => {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [sensorInfo, setSensorInfo] = useState([]);
+    const [sensorLabels, setSensorLabels] = useState({});
 
     useEffect(() => {
-        var url = 'http://'+props.api_ip+'/manage_node/'+props.label
+        fetch('http://'+props.api_ip+'/node_info?'+new URLSearchParams({'get_all_labels':1}))
+            .then(res => res.json())
+            .then(
+                (data) =>{
+                    setIsLoaded(true);
+                    setSensorLabels(data);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
+    }, [])
+
+    const selectedNodeChanged = (e) =>{
+        var url = 'http://'+props.api_ip+'/manage_node/'+e.target.value
         fetch(url=url, {method:"GET"})
             .then(res => res.json())
             .then(
@@ -21,7 +38,7 @@ export const NodeInfo = (props) => {
                     setError(error);
                 }
             )
-    }, [])
+    }
 
     if(error){
         return <div>Error: {error.message}</div>
@@ -55,7 +72,17 @@ export const NodeInfo = (props) => {
 
                 <div className="node-info-container ">
                     <label className="card-element-label">Label </label>
-                    <label className="card-element-text">{sensorInfo.label}</label>
+                    <select
+                        className="node-form-inputs"
+                        defaultValue={""}
+                        onChange={e => selectedNodeChanged(e)}
+                    >
+                        {Object.values(sensorLabels).map(label=>
+                            <option>
+                                {label}
+                            </option>
+                        )}
+                    </select>
 
                     <label className="card-element-label">Type </label>
                     <label className="card-element-text">{sensorInfo.node_type}</label>
