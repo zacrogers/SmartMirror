@@ -8,10 +8,19 @@ let nodeLabel = "NodeLabel";
 export const PowerNode = (props) =>{
     const [error, setError] = useState(null);
     const [channelLabels, setChannelLabels] = useState([]);
+    const [channelStates, setChannelStates] = useState([]);
 
     useEffect(() => {
         setChannelLabels(labels);
     }, [])
+
+    const setChannelState = (channel) =>{
+        if(channelStates[channel]){
+            // Turn off
+        }else{
+            //Turn on
+        }
+    }
 
     return(
         <div className="card-element">
@@ -22,10 +31,10 @@ export const PowerNode = (props) =>{
             </div>
             {/* <br/> */}
             <div className="power-node-container">
-                <Button variant="contained">1</Button>
-                <Button variant="contained">1</Button>
-                <Button variant="contained">1</Button>
-                <Button variant="contained">1</Button>
+                <Button variant="contained" onClick={()=>{setChannelState(0)}}>1</Button>
+                <Button variant="contained" onClick={()=>{setChannelState(1)}}>2</Button>
+                <Button variant="contained" onClick={()=>{setChannelState(2)}}>3</Button>
+                <Button variant="contained" onClick={()=>{setChannelState(3)}}>4</Button>
             {/* {channelLabels.map(label=>
                     <Button
                         disabled={error ? "true":"false"}

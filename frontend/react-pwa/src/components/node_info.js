@@ -26,7 +26,25 @@ export const NodeInfo = (props) => {
     if(error){
         return <div>Error: {error.message}</div>
     } else if (!isLoaded){
-        return <div> Loading...</div>
+        return(
+            <div className="card-element">
+                <div  className="card-element-heading">
+                    <label>Node Info</label>
+                    <div className="card-element-divider"></div>
+                </div>
+
+                <div className="node-info-container ">
+                    <label className="card-element-label">Label </label>
+                    <label className="card-element-text">Loading...</label>
+
+                    <label className="card-element-label">Type </label>
+                    <label className="card-element-text">Loading...</label>
+
+                    <label className="card-element-label">IP </label>
+                    <label className="card-element-text">Loading...</label>
+                </div>
+            </div>
+        )
     } else {
         return(
             <div className="card-element">
@@ -45,32 +63,6 @@ export const NodeInfo = (props) => {
                     <label className="card-element-label">IP </label>
                     <label className="card-element-text">{sensorInfo.ip_addr}</label>
                 </div>
-                {/* <ul> */}
-                    {/* <div> */}
-                    {/* {Object.entries(sensorInfo)
-                        .filter(([key]) => key !== "id") // Ignore node id for displaying
-                        .map(
-                            ([key, value]) =>
-                            // <label>{key}</label>
-
-                            // <label>{value}</label>
-
-                            <li key={key}>{key}: {strFirstUpper(value)}</li>
-                        )
-                    } */}
-                    {/* <br/> */}
-                    {/* {Object.entries(sensorInfo)
-                        .filter(([key]) => key !== "id") // Ignore node id for displaying
-                        .map(
-                            ([key, value]) =>
-                            // <label>{key}</label>
-                            <label>{value}</label>
-
-                            // <li key={key}>{key}:{strFirstUpper(value)}</li>
-                        )
-                    } */}
-                    {/* </div> */}
-                {/* </ul> */}
             </div>
         )
     }

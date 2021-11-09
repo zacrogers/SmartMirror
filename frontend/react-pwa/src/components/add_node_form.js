@@ -25,7 +25,7 @@ export const AddNodeForm = (props) => {
             )
     }, [])
 
-    const updateType = (event )=>
+    const updateType = (event)=>
     {
         setType(event.target.value);
     }
@@ -72,7 +72,7 @@ export const AddNodeForm = (props) => {
 
                 <form>
                     <div  className="node-form-container">
-                    <label className="node-form-label" for="nodeLabelInput">Label:</label>
+                    <label className="node-form-label" for="nodeLabelInput">Label</label>
                     <input
                         name="nodeLabelInput"
                         id="nodeLabelInput"
@@ -81,7 +81,7 @@ export const AddNodeForm = (props) => {
                         // disabled={error ? "true":"false"}
                         />
 
-                    <label className="node-form-label">Type:</label>
+                    <label className="node-form-label">Type</label>
 
                     <select className="node-form-inputs">
                         {/* <select disabled={error ? "true":"false"}> */}
@@ -92,7 +92,7 @@ export const AddNodeForm = (props) => {
                         )}
                     </select>
 
-                    <label className="node-form-label">IP:</label>
+                    <label className="node-form-label">IP</label>
                     <input
                         name="ipAddressInput"
                         className="node-form-inputs"
