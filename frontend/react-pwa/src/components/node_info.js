@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { strFirstUpper } from '../helpers';
-
+import './myStyles.css';
 
 export const NodeInfo = (props) => {
     const [error, setError] = useState(null);
@@ -29,18 +29,47 @@ export const NodeInfo = (props) => {
         return <div> Loading...</div>
     } else {
         return(
-            <div>
-                <ul>
-                    <div>
-                    {Object.entries(sensorInfo)
+            <div className="node-info-container card-element">
+                <div>
+                    <label className="node-info-label">Label: </label>
+                    <label className="node-info-label">{sensorInfo.label}</label>
+                </div>
+
+                <div>
+                    <label className="node-info-label">Type: </label>
+                    <label className="node-info-label">{sensorInfo.node_type}</label>
+                </div>
+
+                <div>
+                    <label className="node-info-label">IP: </label>
+                    <label className="node-info-label">{sensorInfo.ip_addr}</label>
+                </div>
+                {/* <ul> */}
+                    {/* <div> */}
+                    {/* {Object.entries(sensorInfo)
                         .filter(([key]) => key !== "id") // Ignore node id for displaying
                         .map(
                             ([key, value]) =>
-                            <li key={key}>{key}:{strFirstUpper(value)}</li>
+                            // <label>{key}</label>
+
+                            // <label>{value}</label>
+
+                            <li key={key}>{key}: {strFirstUpper(value)}</li>
                         )
-                    }
-                    </div>
-                </ul>
+                    } */}
+                    {/* <br/> */}
+                    {/* {Object.entries(sensorInfo)
+                        .filter(([key]) => key !== "id") // Ignore node id for displaying
+                        .map(
+                            ([key, value]) =>
+                            // <label>{key}</label>
+                            <label>{value}</label>
+
+                            // <li key={key}>{key}:{strFirstUpper(value)}</li>
+                        )
+                    } */}
+                    {/* </div> */}
+                {/* </ul> */}
             </div>
         )
     }

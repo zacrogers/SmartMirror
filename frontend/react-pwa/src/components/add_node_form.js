@@ -58,25 +58,20 @@ export const AddNodeForm = (props) => {
     // } else {
         return(
             <div>
-                <label className="full-width">Add Node</label>
+                <label className="node-form-inputs">Add Node</label>
                 <form>
                     <div  className="node-form-container">
-                    {/* <br/> */}
-
-                    {/* <div> */}
                     <label className="node-form-label" for="nodeLabelInput">Label:</label>
                     <input
                         name="nodeLabelInput"
                         id="nodeLabelInput"
-                        className="full-width"
+                        className="node-form-inputs"
                         type="text"
                         // disabled={error ? "true":"false"}
                         />
-                    {/* </div> */}
 
-                    {/* <div> */}
                     <label className="node-form-label">Type:</label>
-                    <select className="full-width">
+                    <select className="node-form-inputs">
                         {/* <select disabled={error ? "true":"false"}> */}
                         {Object.values(nodeTypes).map(nodeType=>
                                 <option>
@@ -84,14 +79,11 @@ export const AddNodeForm = (props) => {
                                 </option>
                         )}
                     </select>
-                    {/* </div> */}
 
-                    {/* <div> */}
                     <label className="node-form-label">IP:</label>
-                    {/* <br/> */}
                     <input
                         name="ipAddressInput"
-                        className="full-width"
+                        className="node-form-inputs"
                         type="text"
                         disabled={error ? "true":"false"}/>
                     </div>

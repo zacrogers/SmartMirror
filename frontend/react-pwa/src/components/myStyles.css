@@ -6,7 +6,15 @@
     padding: 10px
 }
 
-.full-width{
+/* LoginForm */
+.login-form-container{
+    display:grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+
+/* AddNodeForm */
+.node-form-inputs{
     width: 100%;
     justify-self: flex-start;
 }
@@ -18,6 +26,20 @@
 
 .node-form-label{
     width: 100%;
+    display: inline-block;
+    font-size: 20px;
+    text-align: left;
+}
+
+
+/* NodeInfo */
+.node-info-container{
+    /* width: 100%; */
+    justify-self: flex-start;
+}
+
+.node-info-label{
+    /* width: 30%; */
     display: inline-block;
     font-size: 20px;
     text-align: left;

@@ -5,7 +5,7 @@ import './myStyles.css';
 let labels = ["1", "2", "3", "4"];
 let nodeLabel = "NodeLabel";
 
-export const PowerNode = () =>{
+export const PowerNode = (props) =>{
     const [error, setError] = useState(null);
     const [channelLabels, setChannelLabels] = useState([]);
 
@@ -16,7 +16,7 @@ export const PowerNode = () =>{
     return(
         <div className="card-element">
             <Container>
-            <label>{nodeLabel}</label>
+            <label>{props.label}</label>
             <br/>
             {channelLabels.map(label=>
                     <Button
