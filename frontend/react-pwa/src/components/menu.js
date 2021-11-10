@@ -17,7 +17,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-
+import AppsIcon from '@mui/icons-material/Apps';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PersonIcon from '@mui/icons-material/Person';
+import {Link} from 'react-router-dom';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -129,27 +132,43 @@ export default function MiniDrawer() {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
-        <List sx={{backgroundColor:"#1a237e"}}>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon sx={{color:"#e8eaf6"}}/> : <MailIcon sx={{color:"#e8eaf6"}}/>}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List sx={{backgroundColor:"#1a237e"}}>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon sx={{color:"#e8eaf6"}}/> : <MailIcon sx={{color:"#e8eaf6"}}/>}
-              </ListItemIcon>
-              <ListItemText sx={{color:"#e8eaf6"}} primary={text} />
-            </ListItem>
-          ))}
+        {/* <Divider /> */}
+        <List sx={{backgroundColor:"#1a237e", color:"white", height:"100%"}}>
+          <ListItem button key="dashboard" component={Link} to="/dashboard">
+                <ListItemIcon>
+                  <AppsIcon sx={{color:"#e8eaf6"}}/>
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+          </ListItem>
+
+          <ListItem button key="settings" component={Link} to="/settings">
+                <ListItemIcon>
+                  <SettingsIcon sx={{color:"#e8eaf6"}}/>
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+          </ListItem>
+
+          <ListItem button key="settings" component={Link} to="/settings">
+                <ListItemIcon>
+                  <SettingsIcon sx={{color:"#e8eaf6"}}/>
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+          </ListItem>
+
+          <ListItem button key="settings" component={Link} to="/settings">
+                <ListItemIcon>
+                  <PersonIcon sx={{color:"#e8eaf6"}}/>
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+          </ListItem>
+
+          <ListItem button key="settings" component={Link} to="/settings">
+                <ListItemIcon>
+                  <SettingsIcon sx={{color:"#e8eaf6"}}/>
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+          </ListItem>
+
         </List>
       </Drawer>
     </Box>
