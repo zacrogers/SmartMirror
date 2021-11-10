@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { strFirstUpper } from '../helpers';
+import React, { useEffect, useState } from 'react';
 import './myStyles.css';
-import { SensorNodeList } from './SensorNodeList';
 
 export const NodeInfo = (props) => {
     const [error, setError] = useState(null);
