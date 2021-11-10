@@ -11,10 +11,13 @@
     padding: 10px;
     background-color:rgb(28, 27, 48);
     position: relative;
+    box-shadow:0 0 0em rgb(38, 224, 230);
+    transition: 250ms;
 }
 .card-element:hover{
     border-color: rgb(115, 192, 188);
-    box-shadow:0 0 0.2em rgb(38, 224, 230);
+    box-shadow:0 0 0.3em rgb(38, 224, 230);
+    border-width:0.12em;
 }
 
 .card-element-heading{
