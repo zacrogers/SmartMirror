@@ -5,50 +5,53 @@
 /* Card element */
 .card-element {
     border-color:lightskyblue;
-    border-radius: 0.25em;
+    border-radius: 0.3rem;
     border-style: solid;
-    border-width: 0.09em;
+    border-width: 0.124rem;
+    max-width:85em;
+    min-width:15em;
     padding: 10px;
     background-color:rgb(28, 27, 48);
     position: relative;
-    box-shadow:0 0 0em rgb(38, 224, 230);
+    box-shadow:0 0 0rem rgb(38, 224, 230);
     transition: 250ms;
 }
 .card-element:hover{
     border-color: rgb(115, 192, 188);
-    box-shadow:0 0 0.3em rgb(38, 224, 230);
-    /* border-width:0.12em; */
+    box-shadow:0 0 0.5rem rgb(38, 224, 230);
 }
 
 .card-element-heading{
     text-align:left;
-    font-size:22px;
-    padding-bottom: 10px;
+    font-size:1.35rem;
+    padding-bottom: 0.5rem;
     color:rgb(217, 255, 247);
 }
 
 .card-element-label{
     text-align:left;
-    font-size:18px;
+    font-size:1.1rem;
     color:var(--main-text-color);
 }
 
 .card-element-text{
     text-align:right;
-    font-size:18px;
+    font-size:1.1rem;
     color:var(--main-text-color);;
 }
 
 .card-element-divider{
     background-color: rgb(83, 87, 136);
-    height:1px;
+    height:0.08rem;
 }
 
 
 /* CardRow */
 .card-row{
     display:grid;
-    row-gap: 20px;
+    row-gap: 1rem;
+    min-width: 20rem;
+    /* max-width: 30rem; */
     padding-left:20%; /* To fix toolbar covering content in mobile*/
 }
 
@@ -121,10 +124,15 @@
 
 .power-node-container{
     display:grid;
-    gap:10px;
+    height:12rem;
+    gap:1rem;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
 }
+
+.power-btn-on{}
+
+.power-btn-off{}
 
 .power-node-button{
     min-width: 100%;
