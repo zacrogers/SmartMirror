@@ -9,6 +9,12 @@ export const AddNodeForm = (props) => {
     const [nodeTypes, setNodeTypes] = useState({});
     const [type, setType] = useState(null);
 
+    const [formFields, setFormFields] = useState({
+        label:"",
+        type:"",
+        ip_addr:""
+    });
+
     useEffect(() => {
         var params = new URLSearchParams({'get_node_types':1})
         fetch('http://'+props.api_ip+'/node_info?'+params)
@@ -25,9 +31,46 @@ export const AddNodeForm = (props) => {
             )
     }, [])
 
+    const submitNode = (event) =>{
+        const name = event.target.name;
+        const value = event.target.value;
+        setFormFields(values =>({...values, [name]: value}));
+
+        var params = new URLSearchParams(formFields)
+        var url = 'http://'+props.api_ip+'/manage_node/'+formFields.label
+
+        alert(url+'?'+params);
+        fetch(
+            url=url+'?'+params,
+            {method:"PUT"})
+            .then(
+                res => res.json()
+            )
+            .then(
+                alert(data)
+            )
+
+            // .then(
+            //     (data) =>{
+            //         setIsLoaded(true);
+            //         setNodeTypes(data);
+            //     },
+            //     (error) => {
+            //         setIsLoaded(true);
+            //         setError(error);
+            //     }
+            // )
+    }
+
     const updateType = (event)=>
     {
         setType(event.target.value);
+    }
+
+    const onChange = (name) =>{
+        return({target:{value}}) => {
+            setFormFields(oldValues => ({...oldValues, [name]:value}));
+        }
     }
 
     // if(error){
@@ -70,23 +113,30 @@ export const AddNodeForm = (props) => {
                     <div className="card-element-divider"></div>
                 </div>
 
-                <form>
+                <form onSubmit={submitNode}>
                     <div  className="node-form-container">
                     <label className="node-form-label" for="nodeLabelInput">Label</label>
                     <input
-                        name="nodeLabelInput"
+                        name="label"
                         id="nodeLabelInput"
                         className="node-form-inputs"
                         type="text"
+                        value={formFields.label}
+                        onChange={onChange("label")}
                         // disabled={error ? "true":"false"}
                         />
 
                     <label className="node-form-label">Type</label>
 
-                    <select className="node-form-inputs">
+                    <select
+                        name="type"
+                        className="node-form-inputs"
+                        value={formFields.type}
+                        onChange={onChange("type")}
+                    >
                         {/* <select disabled={error ? "true":"false"}> */}
                         {Object.values(nodeTypes).map(nodeType=>
-                                <option>
+                                <option value={strFirstUpper(nodeType)}>
                                     {strFirstUpper(nodeType)}
                                 </option>
                         )}
@@ -94,18 +144,27 @@ export const AddNodeForm = (props) => {
 
                     <label className="node-form-label">IP</label>
                     <input
-                        name="ipAddressInput"
+                        name="ip_addr"
                         className="node-form-inputs"
                         type="text"
+                        value={formFields.ip_addr}
+                        onChange={onChange("ip_addr")}
                         pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
                         // disabled={error ? "true":"false"}
                         />
                     </div>
 
-                    {error
+                    <button
+                        className="node-form-button"
+                        type="submit"
+                    >
+                        Add Node
+                    </button>
+
+                    {/* {error
                         ? <button className="node-form-button" onClick={()=>{alert("API not connected")}}>Add Node</button>
                         : <button className="node-form-button" onClick={()=>{alert("API connected")}}>Add Node</button>
-                    }
+                    } */}
                 </form>
             </div>
         )

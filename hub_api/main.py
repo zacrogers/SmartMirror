@@ -106,7 +106,9 @@ class ManageNode(Resource):
             )
 
         node = NodeModel(
-            label=args["label"], ip_addr=args["ip_addr"], node_type=args["type"]
+            label=args["label"],
+            ip_addr=args["ip_addr"],
+            node_type=str(args["type"]).upper(),
         )
         db.session.add(node)
         db.session.commit()
