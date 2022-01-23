@@ -9,8 +9,8 @@ import { SensorNodeData } from './components/sensor_node';
 import { DashboardPage } from './pages/DashboardPage';
 import { SettingsPage } from './pages/SettingsPage';
 
-// var apiIpAddr = '127.0.0.1:5000'
-var apiIpAddr = '192.168.1.124:5000'
+var apiIpAddr = 'localhost:5000'
+// var apiIpAddr = '192.168.1.124:5000'
 
 function App() {
   const components = [
