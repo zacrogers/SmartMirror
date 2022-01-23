@@ -13,7 +13,7 @@
       <tr>
         <th>Light</th>
         <th>Temperature</th>
-        <th>Humidity</th>  
+        <th>Humidity</th>
       </tr>
 
       <tr>
@@ -42,26 +42,26 @@
       <form method="POST">
         <label for={{"timer-enabled-checkbox-" ~ sensor.name}}>Timer Enabled:</label>
         {% if sensor.timer_enabled == True %}
-          <input type="checkbox" 
-                 name={{"timer-enabled-checkbox-" ~ sensor.name}} 
+          <input type="checkbox"
+                 name={{"timer-enabled-checkbox-" ~ sensor.name}}
                  checked>
         {% else %}
-          <input type="checkbox" 
+          <input type="checkbox"
                  name={{"timer-enabled-checkbox-" ~ sensor.name}}>
         {% endif%}
         <input type="submit" value="Update">
       </form>
     </div>
- 
+
     <div class="range-slider">
-      <form method="POST">  
-        <label for="light-trigger-level">Light Trigger:</label>  
-        <input type="range" 
-               value="{{sensor.trig_level}}" 
-               min="1" 
-               max="1024" 
-               oninput="this.nextElementSibling.value = this.value" 
-               id={{"light-trigger-level" ~ index}} 
+      <form method="POST">
+        <label for="light-trigger-level">Light Trigger:</label>
+        <input type="range"
+               value="{{sensor.trig_level}}"
+               min="1"
+               max="1024"
+               oninput="this.nextElementSibling.value = this.value"
+               id={{"light-trigger-level" ~ index}}
                name={{"light-trigger-level" ~ index}}>
           <output>{{sensor.trig_level}}</output>
          <input type="submit" value="Submit">
@@ -69,7 +69,7 @@
     </div>
 
     <div class="timecontainer">
-      <form method="POST"> 
+      <form method="POST">
         <label for="appt">Select a time:</label>
         <input type="time" id={{"trigger-time" ~ index}} name={{"trigger-time" ~ index}}>
         <input type="submit" value="Submit">
@@ -90,7 +90,7 @@
     </div>
     {%endfor%}
   </div>
- 
+
   <div>
     <h2>Add Node</h2>
     <form method="POST">

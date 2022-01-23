@@ -5,7 +5,7 @@ Features:
   - Date/time
   - Media player
   - Temperature
-  - News headlines 
+  - News headlines
   - Web server
 
 Work in progress

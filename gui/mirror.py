@@ -2,13 +2,12 @@
 import tkinter as tk
 import time
 import datetime
-import os 
-from PIL import ImageTk,Image
+import os
+from PIL import ImageTk, Image
 import json
 
 import weather
 import news
-
 
 
 class Mirror(tk.Frame):
@@ -17,10 +16,10 @@ class Mirror(tk.Frame):
         self.parent = parent
         self.DIR_PATH = os.path.dirname(os.path.realpath(__file__))
         self.NUM_HEADLINES = 10
-        self.BG_COLOR = 'black'
+        self.BG_COLOR = "black"
         self.TEXT_COLOR = "white"
         self.FONT = "Verdana"
-        self.CELSIUS = u"\u2103"
+        self.CELSIUS = "\u2103"
         self.CITIES = ["Auckland", "Wellington", "Christchurch", "Dunedin"]
         self.country = "NZ"
 
@@ -36,10 +35,22 @@ class Mirror(tk.Frame):
         # Date/time display
         self.dt_frame = tk.Frame(self.top_frame, bg=self.BG_COLOR)
 
-        self.date = tk.Label(self.dt_frame, text=self.get_date(), bg=self.BG_COLOR, fg=self.TEXT_COLOR, font=(self.FONT, 22))
+        self.date = tk.Label(
+            self.dt_frame,
+            text=self.get_date(),
+            bg=self.BG_COLOR,
+            fg=self.TEXT_COLOR,
+            font=(self.FONT, 22),
+        )
         self.date.pack(expand=True, fill=tk.BOTH, side=tk.TOP, anchor=tk.E)
 
-        self.clock = tk.Label(self.dt_frame, text=self.get_time(), bg=self.BG_COLOR, fg=self.TEXT_COLOR, font=(self.FONT, 50))
+        self.clock = tk.Label(
+            self.dt_frame,
+            text=self.get_time(),
+            bg=self.BG_COLOR,
+            fg=self.TEXT_COLOR,
+            font=(self.FONT, 50),
+        )
         self.clock.pack(expand=True, fill=tk.BOTH, side=tk.TOP, anchor=tk.E)
 
         self.dt_frame.pack(expand=True, side=tk.LEFT)
@@ -48,7 +59,13 @@ class Mirror(tk.Frame):
         self.temp_frame = tk.Frame(self.top_frame, bg=self.BG_COLOR)
 
         # Weather icon
-        self.weather_canv = tk.Canvas(self.temp_frame, width=100, height=100, bg=self.BG_COLOR, highlightthickness=0)
+        self.weather_canv = tk.Canvas(
+            self.temp_frame,
+            width=100,
+            height=100,
+            bg=self.BG_COLOR,
+            highlightthickness=0,
+        )
         self.weather_image = Image.open(f"{self.DIR_PATH}/icons/Clear.png")
         self.weather_image = self.weather_image.resize((100, 100), Image.ANTIALIAS)
 
@@ -59,11 +76,13 @@ class Mirror(tk.Frame):
         # Temperature info
         # self.get_temperature()
         temp = weather.get_temp(self.home_city, self.country)
-        self.home_temp_label = tk.Label(self.temp_frame, 
-                                        text=f"{temp} {self.CELSIUS}", 
-                                        bg=self.BG_COLOR, 
-                                        fg=self.TEXT_COLOR, 
-                                        font=(self.FONT, 40))
+        self.home_temp_label = tk.Label(
+            self.temp_frame,
+            text=f"{temp} {self.CELSIUS}",
+            bg=self.BG_COLOR,
+            fg=self.TEXT_COLOR,
+            font=(self.FONT, 40),
+        )
 
         self.home_temp_label.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, anchor=tk.S)
 
@@ -72,16 +91,16 @@ class Mirror(tk.Frame):
 
         # Filler to space out screen center
         # self.filler = tk.Label(self, height=35, text='fill', bg=self.BG_COLOR)
-        self.filler = tk.Label(self, height=15, text='fill', bg=self.BG_COLOR)
+        self.filler = tk.Label(self, height=15, text="fill", bg=self.BG_COLOR)
         self.filler.pack(expand=True, fill=tk.BOTH)
 
         # News headlines
         self.hl_frame = tk.Frame(self, bg=self.BG_COLOR)
         self.get_headlines()
-        self.hl_frame.pack(expand=True, side=tk.TOP, fill=tk.BOTH, padx=30) 
+        self.hl_frame.pack(expand=True, side=tk.TOP, fill=tk.BOTH, padx=30)
 
         # Start label updating callbacks
-        self.parent.after(1000, self.refresh_settings)	
+        self.parent.after(1000, self.refresh_settings)
         self.parent.after(1000, self.update_time)
         self.parent.after(1000, self.update_date)
         self.parent.after(1000, self.update_home_temp)
@@ -90,9 +109,9 @@ class Mirror(tk.Frame):
 
     def load_settings(self):
         with open(f"{self.DIR_PATH}/settings.json", "r") as f:
-        	settings = json.load(f)
-        	self.country = settings.get("country")
-        	self.home_city = settings.get("city")
+            settings = json.load(f)
+            self.country = settings.get("country")
+            self.home_city = settings.get("city")
 
     def get_time(self):
         current_time = datetime.datetime.now()
@@ -105,51 +124,54 @@ class Mirror(tk.Frame):
     def get_temperature(self):
         row = 0
         for city in self.CITIES:
-            # temp = 100 
+            # temp = 100
             temp = weather.get_temp(city, self.country)
-            temp_label = tk.Label(self.temp_frame, 
-                                  text=f"{city} {temp}{self.CELSIUS}", 
-                                  bg=self.BG_COLOR, 
-                                  fg=self.TEXT_COLOR, 
-                                  font=(self.FONT, 10))
+            temp_label = tk.Label(
+                self.temp_frame,
+                text=f"{city} {temp}{self.CELSIUS}",
+                bg=self.BG_COLOR,
+                fg=self.TEXT_COLOR,
+                font=(self.FONT, 10),
+            )
 
             self.temperature_labels.append(temp_label)
-            temp_label.pack(anchor=tk.W)           
+            temp_label.pack(anchor=tk.W)
 
     def get_weather_status(self, city, country):
-        return "Clear" 
+        return "Clear"
         # return weather.get_status(city, country)
 
     def get_headlines(self):
         hl = news.get_nz_headlines()
 
-        self.NUM_HEADLINES = len(hl)-1
+        self.NUM_HEADLINES = len(hl) - 1
 
         for i in range(self.NUM_HEADLINES):
 
             # Remove website name
-            line = hl[i].split('-')
+            line = hl[i].split("-")
             curr_line = ""
-            for l in range(len(line)-1):
-                curr_line+=line[l]
+            for l in range(len(line) - 1):
+                curr_line += line[l]
 
             # Limit string length to fit screen
             truncated_str = (curr_line[:108]) if len(curr_line) > 108 else curr_line
 
-            l = tk.Label(self.hl_frame, 
-                         text=truncated_str, 
-                         bg=self.BG_COLOR, 
-                         fg=self.TEXT_COLOR, 
-                         font=(self.FONT, 10))
+            l = tk.Label(
+                self.hl_frame,
+                text=truncated_str,
+                bg=self.BG_COLOR,
+                fg=self.TEXT_COLOR,
+                font=(self.FONT, 10),
+            )
 
             self.headline_labels.append(l)
             l.pack(anchor=tk.W)
 
-
     ### Label content updating ###
     def refresh_settings(self):
-    	self.load_settings()
-    	self.parent.after(60000, self.refresh_settings)
+        self.load_settings()
+        self.parent.after(60000, self.refresh_settings)
 
     def update_time(self):
         self.clock.configure(text=self.get_time())
@@ -160,7 +182,7 @@ class Mirror(tk.Frame):
         self.parent.after(1000, self.update_date)
 
     def update_home_temp(self):
-        # temp = 10 
+        # temp = 10
         temp = weather.get_temp(self.home_city, self.country)
         self.home_temp_label.configure(text=f"{temp} {self.CELSIUS}")
         self.parent.after(60000, self.update_home_temp)
@@ -170,13 +192,15 @@ class Mirror(tk.Frame):
 
         for city in self.CITIES:
             temp = weather.get_temp(city, self.country)
-            self.temperature_labels[index].configure(text=f"{city} {temp}{self.CELSIUS}")
-            index+=1
+            self.temperature_labels[index].configure(
+                text=f"{city} {temp}{self.CELSIUS}"
+            )
+            index += 1
 
         self.parent.after(60000, self.update_temperature)
 
     def update_weather_status(self):
-        status = "Clear" 
+        status = "Clear"
         # status =  weather.get_status(self.home_city, self.country)
 
         if self.is_daytime():
@@ -190,19 +214,18 @@ class Mirror(tk.Frame):
         self.weather_canv.itemconfigure(self.canv_img, image=self.weather_icon)
         self.parent.after(60000, self.update_weather_status)
 
-
     def update_headlines(self):
         hl = news.get_nz_headlines()
 
-        self.NUM_HEADLINES = len(hl)-1
+        self.NUM_HEADLINES = len(hl) - 1
 
         for i in range(self.NUM_HEADLINES):
             # Remove website name
-            line = hl[i].split('-')
+            line = hl[i].split("-")
             curr_line = ""
 
-            for l in range(len(line)-1):
-                curr_line+=line[l]
+            for l in range(len(line) - 1):
+                curr_line += line[l]
 
             # Limit string length to fit screen
             truncated_str = (curr_line[:108]) if len(curr_line) > 108 else curr_line
@@ -212,8 +235,8 @@ class Mirror(tk.Frame):
 
     # For weather icon display
     def is_daytime(self):
-        seven_am = datetime.time(7,00,00)
-        seven_pm = datetime.time(19,00,00)
+        seven_am = datetime.time(7, 00, 00)
+        seven_pm = datetime.time(19, 00, 00)
         now = datetime.datetime.now().time()
 
         return True if now > seven_am and now < seven_pm else False
@@ -225,6 +248,6 @@ if __name__ == "__main__":
     # root.attributes('-fullscreen', True, '-topmost', True)
     root.lift()
     m = Mirror(root, bg="black")
-    m.pack(expand = True, fill=tk.BOTH)
+    m.pack(expand=True, fill=tk.BOTH)
 
     root.mainloop()

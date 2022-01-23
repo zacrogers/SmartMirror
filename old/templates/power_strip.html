@@ -18,14 +18,14 @@
 					{%endif%}
 				{%endfor%}
 
-				<h3>{{node.name ~ " Node Labels"}}</h3>	
+				<h3>{{node.name ~ " Node Labels"}}</h3>
 				{%for index, label in enumerate(node.channel_labels)%}
 					<form method="POST">
 						<input type="text" name={{"pwr-node-" ~ node.name ~ "-" ~ index}} value={{label}}>
 						<input type="submit" value="Submit"><br>
 					</form>
 				{%endfor%}
-			</div>		
+			</div>
 		{%endfor%}
 	</div>
 

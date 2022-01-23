@@ -9,7 +9,7 @@ import time
 import utilities as util
 import threading
 
-screen = pygame.display.set_mode ( (1,1) )
+screen = pygame.display.set_mode((1, 1))
 
 
 class AudioPlayer:
@@ -50,14 +50,15 @@ class AudioPlayer:
 
         # dummy_event = threading.Event()
         # timer = threading.Timer(self.player.get_media().get_duration()/1000, self.dummy).start()
-        # sleep(5) 
+        # sleep(5)
 
         # while self.player.is_playing():
-            # timer.start()
-            # timer.cancel()
+        # timer.start()
+        # timer.cancel()
         # print(self.player.get_media().get_duration()/1000)
-        # dummy_event.wait(self.player.get_media().get_duration()/1000) 
-            # pass 
+        # dummy_event.wait(self.player.get_media().get_duration()/1000)
+        # pass
+
     def dummy(self):
         pass
 
@@ -74,9 +75,9 @@ class AudioPlayer:
         return self.track_db.artists.unique()
 
     def get_track(self, artist, album, track):
-        artist_filt = (self.track_db["artist"] == artist)
-        album_filt = (self.track_db["album"] == album)
-        track_filt = (self.track_db["song"] == track)
+        artist_filt = self.track_db["artist"] == artist
+        album_filt = self.track_db["album"] == album
+        track_filt = self.track_db["song"] == track
 
         tracks = self.track_db[artist_filt]
         album = tracks[album_filt]
@@ -86,8 +87,8 @@ class AudioPlayer:
 
     # Helper method for get_mp3_tags
     def get_track_paths(self):
-        x = [os.path.join(r,file) for r,d,f in os.walk(self.MUSIC_DIR) for file in f]
-        return [ s.replace(self.MUSIC_DIR,'') for s in x]
+        x = [os.path.join(r, file) for r, d, f in os.walk(self.MUSIC_DIR) for file in f]
+        return [s.replace(self.MUSIC_DIR, "") for s in x]
 
     # Get mp3 tags of all tracks in music directory
     def get_mp3_tags(self):
@@ -105,7 +106,7 @@ class AudioPlayer:
                 fix = str(tag[key]).strip()
                 tag[key] = fix
 
-            tag['path'] = track
+            tag["path"] = track
             tags.append(tag)
 
         return pd.DataFrame(tags)
@@ -119,6 +120,6 @@ class AudioPlayer:
     def print_track_db(self):
         print(self.track_db)
 
+
 if __name__ == "__main__":
     audio_player = AudioPlayer()
-
