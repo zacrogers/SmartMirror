@@ -44,9 +44,17 @@ node_put_args = reqparse.RequestParser()
 node_put_args.add_argument(
     "label", type=str, help="Label for node is required.", required=True
 )
+
+
+
+
+
 node_put_args.add_argument(
     "ip_addr", type=str, help="IP address for node is required.", required=True
 )
+
+
+
 node_put_args.add_argument(
     "type", type=str, help="Type of node is required.", required=True
 )
@@ -155,8 +163,6 @@ class ManageNode(Resource):
         db.session.commit()
 
         return 200
-
-
 class Sensor(Resource):
     def get(self, label: str):
         result = NodeModel.query.filter_by(label=label).first()
