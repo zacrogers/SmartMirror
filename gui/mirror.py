@@ -67,7 +67,7 @@ class Mirror(tk.Frame):
             highlightthickness=0,
         )
         self.weather_image = Image.open(f"{self.DIR_PATH}/icons/Clear.png")
-        self.weather_image = self.weather_image.resize((100, 100), Image.ANTIALIAS)
+        self.weather_image = self.weather_image.resize((100, 100))
 
         self.weather_icon = ImageTk.PhotoImage(self.weather_image)
         self.canv_img = self.weather_canv.create_image(50, 50, image=self.weather_icon)
@@ -144,9 +144,11 @@ class Mirror(tk.Frame):
     def get_headlines(self):
         hl = news.get_nz_headlines()
 
-        self.NUM_HEADLINES = len(hl) - 1
+        num_headlines = (
+            self.NUM_HEADLINES if len(hl) > self.NUM_HEADLINES else (len(hl) - 1)
+        )
 
-        for i in range(self.NUM_HEADLINES):
+        for i in range(num_headlines):
 
             # Remove website name
             line = hl[i].split("-")
@@ -208,7 +210,7 @@ class Mirror(tk.Frame):
         else:
             self.weather_image = Image.open(f"{self.DIR_PATH}/icons/Night_{status}.png")
 
-        self.weather_image = self.weather_image.resize((100, 100), Image.ANTIALIAS)
+        self.weather_image = self.weather_image.resize((100, 100))
         self.weather_icon = ImageTk.PhotoImage(self.weather_image)
 
         self.weather_canv.itemconfigure(self.canv_img, image=self.weather_icon)
@@ -217,9 +219,12 @@ class Mirror(tk.Frame):
     def update_headlines(self):
         hl = news.get_nz_headlines()
 
-        self.NUM_HEADLINES = len(hl) - 1
+        # self.NUM_HEADLINES = len(hl) - 1
+        num_headlines = (
+            self.NUM_HEADLINES if len(hl) > self.NUM_HEADLINES else (len(hl) - 1)
+        )
 
-        for i in range(self.NUM_HEADLINES):
+        for i in range(num_headlines):
             # Remove website name
             line = hl[i].split("-")
             curr_line = ""
