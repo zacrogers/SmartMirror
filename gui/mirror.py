@@ -8,6 +8,7 @@ import json
 
 import weather
 import news
+from hass_api import HassApi
 
 
 class Mirror(tk.Frame):
@@ -27,6 +28,8 @@ class Mirror(tk.Frame):
 
         self.headline_labels = []
         self.temperature_labels = []
+
+        self.hass_api = HassApi()
 
         self.load_settings()
 
