@@ -51,6 +51,6 @@ class HassApi:
 
 if __name__ == "__main__":
     hass_api = HassApi()
-    # print(hass_api.get_current_sensor_val("sensor.temperature"))
+    print(hass_api.get_sensor_current_val("sensor.fgf"))
 
-    pprint(hass_api.get_sensor_last_day("sensor.temperature"))
+    # pprint(hass_api.get_sensor_last_day("sensor.temperature"))

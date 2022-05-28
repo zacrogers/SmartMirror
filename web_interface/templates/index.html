@@ -1,0 +1,18 @@
+<html>
+<head>
+<!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="stylesheet" href='/static/style.css' /> -->
+</head>
+<body>
+<h1>Smart Mirror</h1>
+
+<h2>City: {{current_city}}</h2>
+<h2>Country: {{current_country}}</h2>
+
+<h2>Home Assistant Entities</h2>
+{%for entity in sensor_entities%}
+    <h3>{{entity}}</h3>
+{%endfor%}
+
+</body>
+</html>

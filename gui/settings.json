@@ -1,4 +1,10 @@
 {
     "country": "NZ",
-    "city": "Wellington"
+    "city": "Wellington",
+    "time_format": 24,
+    "hass_entities": [
+        "sensor.temperature",
+        "sensor.humidity",
+        "sensor.light"
+    ]
 }
