@@ -1,3 +1,4 @@
+from pprint import pprint
 from time import time
 import requests
 import json
@@ -30,13 +31,13 @@ class HassApi:
             "Authorization": f"Bearer {ACCESS_TOKEN}",
             "content-type": "application/json",
         }
-        params = {"filter_entity_id": entity_id}
+        params = {"filter_entity_id": entity_id, "minimal_response": True}
         data = requests.get(url, headers=headers, params=params)
         content = json.loads(data.content)
         name = content[0][0].get("attributes", {}).get("friendly_name")
         vals = {"name": name, "values": []}
 
-        for state in content[0][:5]:
+        for state in content[0]:
             timestamp = self._clean_timestamp(state.get("last_changed"))
             vals["values"].append({"timestamp": timestamp, "value": state.get("state")})
 
@@ -52,4 +53,4 @@ if __name__ == "__main__":
     hass_api = HassApi()
     # print(hass_api.get_current_sensor_val("sensor.temperature"))
 
-    hass_api.get_sensor_last_day("sensor.temperature")
+    pprint(hass_api.get_sensor_last_day("sensor.temperature"))
